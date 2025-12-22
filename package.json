@@ -1,0 +1,63 @@
+{
+  "name": "odakla",
+  "version": "1.0.0",
+  "description": "Premium Focus & Habit Tracker",
+  "main": "main.js",
+  "type": "module",
+  "homepage": "https://github.com/Syte6/odakla",
+  "author": {
+    "name": "Syte6",
+    "email": "defasd049@gmail.com"
+  },
+  "scripts": {
+    "start": "electron . --no-sandbox",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:linux": "electron-builder --linux",
+    "postinstall": "electron-builder install-app-deps",
+    "deps:win": "electron-builder install-app-deps --platform=win32"
+  },
+  "keywords": [
+    "focus",
+    "pomodoro",
+    "habits",
+    "electron"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "24.13.3"
+  },
+  "dependencies": {
+    "electron-updater": "^6.6.2",
+    "sqlite3": "^5.1.7"
+  },
+  "build": {
+    "appId": "com.syte6.odakla",
+    "productName": "Odakla",
+    "copyright": "Copyright © 2025 Syte6",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "src/assets/icons/icon.ico"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "maintainer": "Syte6 <defasd049@gmail.com>",
+      "category": "Utility",
+      "icon": "src/assets/icons/icon.png"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Syte6",
+        "repo": "odakla"
+      }
+    ]
+  }
+}

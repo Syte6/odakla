@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html class="dark" lang="tr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Odakla - Ana Sayfa</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Noto+Sans:wght@400;500;700;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1ce36c",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#111814",
+                        "surface-dark": "#1c2620",
+                        "surface-border": "#29382f",
+                        "text-secondary": "#9db8a8"
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "1.5rem",
+                        "xl": "2rem",
+                        "2xl": "2.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="src/assets/css/index.css">
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white transition-colors duration-300">
+    <div class="flex min-h-screen w-full overflow-x-hidden">
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col h-full relative">
+            <div class="flex-1 px-4 md:px-8 py-8 md:py-10 max-w-[1200px] mx-auto w-full flex flex-col gap-8">
+
+                <!-- Header Section -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div class="flex flex-col gap-2">
+                        <h2 class="text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Hoş
+                            Geldin 👋</h2>
+                        <p class="text-text-secondary text-base md:text-lg font-normal">Bugün odaklanmak için harika bir
+                            gün.</p>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div id="date-display" class="text-text-secondary text-sm font-medium"></div>
+                        <button id="toggle-notifications-btn"
+                            class="size-12 rounded-full bg-surface-dark border border-surface-border text-text-secondary flex items-center justify-center hover:bg-white/5 transition-all"
+                            title="Bildirim Sesi Aç/Kapat">
+                            <span class="material-symbols-outlined">notifications_active</span>
+                        </button>
+                        <button id="open-pomodoro-setup"
+                            class="px-6 py-3 rounded-full bg-primary text-background-dark font-bold flex items-center gap-2 hover:scale-105 transition-transform shadow-[0_0_20px_rgba(28,227,108,0.3)]">
+                            <span class="material-symbols-outlined">timer</span>
+                            Pomodoro Başlat
+                        </button>
+                    </div>
+                </div>
+
+                <!-- AI Coach Widget -->
+                <div
+                    class="relative overflow-hidden rounded-xl bg-surface-dark p-1 shadow-lg border border-surface-border group">
+                    <div
+                        class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none">
+                    </div>
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-6 p-5 relative z-10">
+                        <div
+                            class="flex-shrink-0 size-14 rounded-full bg-gradient-to-br from-primary to-[#0f7a3a] flex items-center justify-center text-background-dark shadow-[0_0_15px_rgba(28,227,108,0.4)]">
+                            <span id="ai-coach-icon" class="material-symbols-outlined"
+                                style="font-size: 32px;">auto_awesome</span>
+                        </div>
+                        <div class="flex flex-col gap-1 flex-1">
+                            <div class="flex items-center gap-2">
+                                <p class="text-primary text-xs font-bold uppercase tracking-wider">AI Koçun Önerisi</p>
+                                <span class="size-1.5 rounded-full bg-primary animate-pulse"></span>
+                            </div>
+                            <p id="ai-coach-text" class="text-white text-lg font-medium leading-relaxed">
+                                "Harika gidiyorsun! Bugün en önemli görevine odaklanarak güne başlamaya ne dersin?"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Split Layout: Habits & Tasks -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Habits Section -->
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-white text-xl font-bold flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">check_circle</span>
+                                Günlük Alışkanlıklar
+                            </h3>
+                            <button id="add-habit-btn"
+                                class="size-8 rounded-full bg-surface-dark flex items-center justify-center text-text-secondary hover:text-white hover:bg-surface-border transition-colors">
+                                <span class="material-symbols-outlined" style="font-size: 20px;">add</span>
+                            </button>
+                        </div>
+                        <div id="habits-list" class="flex flex-col gap-3">
+                            <!-- JS ile doldurulacak -->
+                        </div>
+                    </div>
+
+                    <!-- Tasks Section -->
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-white text-xl font-bold flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">list_alt</span>
+                                Bugünün Görevleri
+                            </h3>
+                            <button id="add-task-btn"
+                                class="size-8 rounded-full bg-surface-dark flex items-center justify-center text-text-secondary hover:text-white hover:bg-surface-border transition-colors">
+                                <span class="material-symbols-outlined" style="font-size: 20px;">add</span>
+                            </button>
+                        </div>
+                        <div id="tasks-list" class="flex flex-col gap-3">
+                            <!-- JS ile doldurulacak -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Stats -->
+                <!-- Stats & Heatmap Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <!-- Stat Card 1 -->
+                    <div
+                        class="bg-surface-dark p-6 rounded-[2rem] border border-surface-border relative overflow-hidden group">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="p-1.5 bg-primary/20 rounded-lg text-primary">
+                                <span class="material-symbols-outlined" style="font-size: 20px;">timer</span>
+                            </span>
+                            <span class="text-text-secondary text-sm font-semibold">Bugünkü Odak</span>
+                        </div>
+                        <span id="total-focus-time" class="text-3xl font-black text-white">0s 0dk</span>
+                    </div>
+
+                    <!-- Stat Card 2 -->
+                    <div
+                        class="bg-surface-dark p-6 rounded-[2rem] border border-surface-border relative overflow-hidden group">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="p-1.5 bg-blue-500/20 rounded-lg text-blue-400">
+                                <span class="material-symbols-outlined" style="font-size: 20px;">check_circle</span>
+                            </span>
+                            <span class="text-text-secondary text-sm font-semibold">Tamamlanan Görevler</span>
+                        </div>
+                        <span id="completed-tasks-count" class="text-3xl font-black text-white">0 Görev</span>
+                    </div>
+
+                    <!-- Heatmap Card -->
+                    <div
+                        class="bg-surface-dark p-6 rounded-[2rem] border border-surface-border flex items-center h-full">
+                        <div id="weekly-chart" class="w-full">
+                            <!-- Heatmap JS ile render edilecek -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monthly Goals & Pomodoro History -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                    <!-- Monthly Goals -->
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary">flag</span>
+                                <h3 class="text-xl font-bold text-white">Aylık Hedefler</h3>
+                            </div>
+                            <!-- Gelecekte eklenebilir -->
+                        </div>
+                        <div id="goals-list" class="space-y-4">
+                            <p class="text-text-secondary text-sm italic">"Yazılım projesini tamamla" gibi hedefler
+                                yakında burada olacak.</p>
+                        </div>
+                    </div>
+
+                    <!-- Pomodoro History -->
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary">history</span>
+                            <h3 class="text-xl font-bold text-white">Son Odak Seansları</h3>
+                        </div>
+                        <div id="pomo-history-list" class="space-y-3">
+                            <!-- History items will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Aylık Hedef Modalı -->
+    <div id="goal-modal"
+        class="fixed inset-0 z-50 flex items-center justify-center hidden bg-background-dark/90 backdrop-blur-md p-4">
+        <div
+            class="bg-surface-dark border border-surface-border/50 w-full max-w-lg rounded-[2.5rem] p-10 shadow-3xl relative overflow-hidden">
+            <!-- Decorative Accents -->
+            <div class="absolute -top-24 -right-24 size-48 bg-primary/10 rounded-full blur-3xl pointer-events-none">
+            </div>
+
+            <div class="flex justify-between items-center mb-10 relative z-10">
+                <div class="flex flex-col">
+                    <h3 class="text-3xl font-black text-white tracking-tight">Yeni Aylık Hedef</h3>
+                    <p class="text-text-secondary text-sm">Vizyonunu belirle ve odaklan.</p>
+                </div>
+                <button id="close-goal-modal"
+                    class="size-10 rounded-full bg-white/5 flex items-center justify-center text-text-secondary hover:text-white hover:bg-white/10 transition-all">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <form id="goal-form" class="space-y-8 relative z-10">
+                <div class="group">
+                    <label
+                        class="flex items-center gap-2 text-xs font-bold text-text-secondary mb-2 uppercase tracking-widest group-focus-within:text-primary transition-colors">
+                        <span class="material-symbols-outlined text-[16px]">flag</span> Hedefin Nedir?
+                    </label>
+                    <input type="text" id="goal-title" required placeholder="Örn: Bu ay 4 kitap bitir"
+                        class="w-full bg-background-dark/50 border-surface-border/50 rounded-2xl text-white py-4 px-5 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-white/20">
+                </div>
+                <button type="submit"
+                    class="w-full py-5 bg-primary text-background-dark font-black rounded-2xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-primary/20">
+                    Hedefi Kaydet
+                </button>
+            </form>
+        </div>
+    </div>
+    <div id="habit-modal"
+        class="fixed inset-0 z-50 flex items-center justify-center hidden bg-background-dark/90 backdrop-blur-md p-4">
+        <div
+            class="bg-surface-dark border border-surface-border/50 w-full max-w-lg rounded-[2.5rem] p-10 shadow-3xl relative overflow-hidden">
+            <!-- Decorative Accents -->
+            <div class="absolute -top-24 -right-24 size-48 bg-primary/10 rounded-full blur-3xl pointer-events-none">
+            </div>
+            <div class="absolute -bottom-24 -left-24 size-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none">
+            </div>
+
+            <div class="flex justify-between items-center mb-10 relative z-10">
+                <div class="flex flex-col">
+                    <h3 class="text-3xl font-black text-white tracking-tight">Yeni Alışkanlık</h3>
+                    <p class="text-text-secondary text-sm">Gelişim yolculuğuna bir yenisini ekle.</p>
+                </div>
+                <button id="close-modal"
+                    class="size-10 rounded-full bg-white/5 flex items-center justify-center text-text-secondary hover:text-white hover:bg-white/10 transition-all">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <form id="habit-form" class="space-y-8 relative z-10">
+                <div class="group">
+                    <label
+                        class="flex items-center gap-2 text-xs font-bold text-text-secondary mb-2 uppercase tracking-widest group-focus-within:text-primary transition-colors">
+                        <span class="material-symbols-outlined text-[16px]">edit_note</span> Alışkanlık İsmi
+                    </label>
+                    <input type="text" id="habit-title" required placeholder="Örn: Kitap Okumak, Su İçmek"
+                        class="w-full bg-background-dark/50 border-surface-border/50 rounded-2xl text-white py-4 px-5 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-white/20">
+                </div>
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <label
+                            class="flex items-center gap-2 text-xs font-bold text-text-secondary mb-2 uppercase tracking-widest">
+                            <span class="material-symbols-outlined text-[16px]">category</span> Tip
+                        </label>
+                        <select id="habit-type"
+                            class="w-full bg-background-dark/50 border-surface-border/50 rounded-2xl text-white py-4 px-5 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none">
+                            <option value="yes-no">Evet/Hayır</option>
+                            <option value="numeric">Sayı</option>
+                            <option value="duration">Süre (dk)</option>
+                        </select>
+                    </div>
+                    <div id="goal-container">
+                        <label id="goal-label"
+                            class="flex items-center gap-2 text-xs font-bold text-text-secondary mb-2 uppercase tracking-widest">
+                            <span class="material-symbols-outlined text-[16px]">target</span> Hedef
+                        </label>
+                        <div
+                            class="flex items-center bg-background-dark/50 rounded-2xl border border-surface-border/50 p-1 group-focus-within:border-primary transition-all">
+                            <button type="button" onclick="this.nextElementSibling.stepDown()"
+                                class="size-12 rounded-xl text-text-secondary hover:text-white hover:bg-white/5 transition-all font-black">-</button>
+                            <input type="number" id="habit-goal" value="1" min="1" readonly
+                                class="w-full bg-transparent text-center text-2xl font-black text-white border-none focus:ring-0">
+                            <button type="button" onclick="this.previousElementSibling.stepUp()"
+                                class="size-12 rounded-xl text-text-secondary hover:text-white hover:bg-white/5 transition-all font-black">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="unit-container" class="hidden">
+                    <label
+                        class="flex items-center gap-2 text-xs font-bold text-text-secondary mb-2 uppercase tracking-widest">
+                        <span class="material-symbols-outlined text-[16px]">straighten</span> Birim
+                    </label>
+                    <input type="text" id="habit-unit" placeholder="örn: kitap, bardak"
+                        class="w-full bg-background-dark/50 border-surface-border/50 rounded-2xl text-white py-4 px-5 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-white/20">
+                </div>
+                <div>
+                    <label
+                        class="flex items-center gap-2 text-xs font-bold text-text-secondary mb-2 uppercase tracking-widest">
+                        <span class="material-symbols-outlined text-[16px]">timer</span> Varsayılan Pomodoro
+                    </label>
+                    <div
+                        class="flex items-center bg-background-dark/50 rounded-2xl border border-surface-border/50 p-1 transition-all">
+                        <button type="button" onclick="this.nextElementSibling.stepDown()"
+                            class="size-12 rounded-xl text-text-secondary hover:text-white hover:bg-white/5 transition-all font-black">-</button>
+                        <input type="number" id="habit-pomodoro" value="25" min="5" step="5" readonly
+                            class="w-full bg-transparent text-center text-2xl font-black text-white border-none focus:ring-0">
+                        <button type="button" onclick="this.previousElementSibling.stepUp()"
+                            class="size-12 rounded-xl text-text-secondary hover:text-white hover:bg-white/5 transition-all font-black">+</button>
+                    </div>
+                    <p class="text-[10px] text-text-secondary mt-2 italic px-1">Bu alışkanlık için odak modunda önerilen
+                        süre.</p>
+                </div>
+                <button type="submit"
+                    class="w-full py-5 bg-primary text-background-dark font-black rounded-2xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-primary/20">
+                    Alışkanlığı Başlat
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Görev Modalı -->
+    <div id="task-modal"
+        class="fixed inset-0 z-50 flex items-center justify-center hidden bg-background-dark/90 backdrop-blur-md p-4">
+        <div
+            class="bg-surface-dark border border-surface-border/50 w-full max-w-lg rounded-[2.5rem] p-10 shadow-3xl relative overflow-hidden">
+            <!-- Decorative Accents -->
+            <div class="absolute -top-24 -left-24 size-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none">
+            </div>
+
+            <div class="flex justify-between items-center mb-10 relative z-10">
+                <div class="flex flex-col">
+                    <h3 class="text-3xl font-black text-white tracking-tight">Yeni Görev</h3>
+                    <p class="text-text-secondary text-sm">Bugünü organize etmeye başla.</p>
+                </div>
+                <button id="close-task-modal"
+                    class="size-10 rounded-full bg-white/5 flex items-center justify-center text-text-secondary hover:text-white hover:bg-white/10 transition-all">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <form id="task-form" class="space-y-6 relative z-10">
+                <div class="group">
+                    <label
+                        class="flex items-center gap-2 text-xs font-bold text-text-secondary mb-2 uppercase tracking-widest group-focus-within:text-blue-400 transition-colors">
+                        <span class="material-symbols-outlined text-[16px]">task</span> Görev Başlığı
+                    </label>
+                    <input type="text" id="task-title" required placeholder="Neye odaklanacaksın?"
+                        class="w-full bg-background-dark/50 border-surface-border/50 rounded-2xl text-white py-4 px-5 focus:ring-2 focus:ring-blue-400/20 focus:border-blue-400 transition-all placeholder:text-white/20">
+                </div>
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <label
+                            class="flex items-center gap-2 text-xs font-bold text-text-secondary mb-2 uppercase tracking-widest">
+                            <span class="material-symbols-outlined text-[16px]">priority_high</span> Öncelik
+                        </label>
+                        <select id="task-priority"
+                            class="w-full bg-background-dark/50 border-surface-border/50 rounded-2xl text-white py-4 px-5 focus:ring-2 focus:ring-blue-400/20 focus:border-blue-400 transition-all appearance-none">
+                            <option value="low">Düşük</option>
+                            <option value="medium" selected>Orta</option>
+                            <option value="high">Yüksek</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label
+                            class="flex items-center gap-2 text-xs font-bold text-text-secondary mb-2 uppercase tracking-widest">
+                            <span class="material-symbols-outlined text-[16px]">calendar_today</span> Son Tarih
+                        </label>
+                        <input type="date" id="task-deadline"
+                            class="w-full bg-background-dark/50 border-surface-border/50 rounded-2xl text-white py-4 px-5 focus:ring-2 focus:ring-blue-400/20 focus:border-blue-400 transition-all">
+                    </div>
+                </div>
+                <div>
+                    <label
+                        class="flex items-center gap-2 text-xs font-bold text-text-secondary mb-2 uppercase tracking-widest">
+                        <span class="material-symbols-outlined text-[16px]">location_on</span> Konum
+                    </label>
+                    <input type="text" id="task-location" placeholder="Örn: Ev, Ofis, Kütüphane"
+                        class="w-full bg-background-dark/50 border-surface-border/50 rounded-2xl text-white py-4 px-5 focus:ring-2 focus:ring-blue-400/20 focus:border-blue-400 transition-all placeholder:text-white/20">
+                </div>
+                <div>
+                    <label
+                        class="flex items-center gap-2 text-xs font-bold text-text-secondary mb-2 uppercase tracking-widest">
+                        <span class="material-symbols-outlined text-[16px]">sticky_note_2</span> Notlar
+                    </label>
+                    <textarea id="task-notes" rows="2" placeholder="Eklemek istediğin detaylar..."
+                        class="w-full bg-background-dark/50 border-surface-border/50 rounded-2xl text-white py-4 px-5 focus:ring-2 focus:ring-blue-400/20 focus:border-blue-400 transition-all placeholder:text-white/20"></textarea>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <div
+                        class="flex items-center justify-between p-4 bg-background-dark/30 rounded-2xl border border-surface-border/30 hover:border-blue-400/30 transition-all cursor-pointer group/toggle">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-blue-400">notifications</span>
+                            <label for="task-reminder-toggle"
+                                class="text-sm font-bold text-white cursor-pointer">Hatırlatıcı Kur</label>
+                        </div>
+                        <input type="checkbox" id="task-reminder-toggle"
+                            class="size-5 rounded-lg border-surface-border text-blue-400 focus:ring-blue-400/20 bg-background-dark cursor-pointer">
+                    </div>
+                </div>
+                <div id="reminder-container" class="hidden">
+                    <label
+                        class="flex items-center gap-2 text-xs font-bold text-text-secondary mb-2 uppercase tracking-widest">
+                        <span class="material-symbols-outlined text-[16px]">alarm</span> Hatırlatma Zamanı
+                    </label>
+                    <input type="datetime-local" id="task-reminder"
+                        class="w-full bg-background-dark/50 border-surface-border/50 rounded-2xl text-white py-4 px-5 focus:ring-2 focus:ring-blue-400/20 focus:border-blue-400 transition-all">
+                </div>
+                <button type="submit"
+                    class="w-full py-5 bg-blue-500 text-white font-black rounded-2xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-blue-500/20">
+                    Görevi Kaydet
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pomodoro Hazırlık Modalı (Yeni Akış) -->
+    <div id="pomodoro-setup-modal"
+        class="fixed inset-0 z-50 flex items-center justify-center hidden bg-background-dark/95 backdrop-blur-xl p-4">
+        <div class="w-full max-w-xl text-center gap-8 flex flex-col items-center">
+            <h2 class="text-white text-4xl font-black mb-4">Seansını Kişiselleştir</h2>
+
+            <div class="w-full space-y-8 bg-surface-dark/40 p-8 rounded-[3rem] border border-surface-border">
+                <!-- Seans İsmi -->
+                <div class="space-y-2">
+                    <p class="text-text-secondary font-bold uppercase tracking-widest text-[10px]">Ne üzerine
+                        odaklanıyoruz?</p>
+                    <input type="text" id="pomodoro-name" placeholder="örn: Rapor Yazımı"
+                        class="w-full bg-transparent border-b border-surface-border focus:border-primary text-center text-2xl text-white outline-none py-2 placeholder:text-text-secondary/30">
+                </div>
+
+                <!-- Ayarlar Izgarası -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Oturum Sayısı -->
+                    <div class="flex flex-col items-center gap-2">
+                        <p class="text-text-secondary font-bold text-[10px] uppercase">Oturum</p>
+                        <div class="flex items-center bg-background-dark rounded-2xl border border-surface-border p-1">
+                            <button onclick="this.nextElementSibling.stepDown()"
+                                class="size-10 text-white hover:text-primary transition-colors">-</button>
+                            <input type="number" id="pomo-sessions" value="1" min="1" max="5" readonly
+                                class="w-12 bg-transparent text-center text-xl font-bold text-white border-none focus:ring-0">
+                            <button onclick="this.previousElementSibling.stepUp()"
+                                class="size-10 text-white hover:text-primary transition-colors">+</button>
+                        </div>
+                    </div>
+                    <!-- Çalışma Süresi -->
+                    <div class="flex flex-col items-center gap-2">
+                        <p class="text-text-secondary font-bold text-[10px] uppercase">Çalışma (dk)</p>
+                        <div class="flex items-center bg-background-dark rounded-2xl border border-surface-border p-1">
+                            <button onclick="this.nextElementSibling.stepDown()"
+                                class="size-10 text-white hover:text-primary transition-colors">-</button>
+                            <input type="number" id="pomo-work-dur" value="25" min="5" max="60" step="5" readonly
+                                class="w-12 bg-transparent text-center text-xl font-bold text-white border-none focus:ring-0">
+                            <button onclick="this.previousElementSibling.stepUp()"
+                                class="size-10 text-white hover:text-primary transition-colors">+</button>
+                        </div>
+                    </div>
+                    <!-- Mola Süresi -->
+                    <div class="flex flex-col items-center gap-2">
+                        <p class="text-text-secondary font-bold text-[10px] uppercase">Mola (dk)</p>
+                        <div class="flex items-center bg-background-dark rounded-2xl border border-surface-border p-1">
+                            <button onclick="this.nextElementSibling.stepDown()"
+                                class="size-10 text-white hover:text-primary transition-colors">-</button>
+                            <input type="number" id="pomo-break-dur" value="5" min="5" max="60" step="5" readonly
+                                class="w-12 bg-transparent text-center text-xl font-bold text-white border-none focus:ring-0">
+                            <button onclick="this.previousElementSibling.stepUp()"
+                                class="size-10 text-white hover:text-primary transition-colors">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <button id="cancel-pomodoro-setup"
+                    class="text-text-secondary font-bold px-8 py-3 hover:text-white transition-colors">Vazgeç</button>
+                <button id="start-pomodoro-btn"
+                    class="bg-primary text-background-dark font-black px-12 py-4 rounded-full text-xl shadow-[0_0_30px_rgba(28,227,108,0.4)] hover:scale-105 active:scale-95 transition-all">Döngüyü
+                    Başlat</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pomodoro Sayaç Overlay (Yeni Tasarım) -->
+    <div id="pomodoro-overlay"
+        class="fixed inset-0 z-[60] flex flex-col hidden bg-background-dark transition-all duration-700">
+        <!-- Ambient Background Glow -->
+        <div class="absolute inset-0 z-0 pointer-events-none focus-gradient animate-pulse-slow"></div>
+
+        <!-- Header / Status Bar -->
+        <header class="relative z-10 w-full px-8 py-6 flex justify-between items-start border-none mb-0 p-0">
+            <div id="back-to-dash"
+                class="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
+                <span class="material-symbols-outlined text-white">arrow_back</span>
+                <span class="text-sm font-medium">Dashboard</span>
+            </div>
+
+            <div
+                class="flex items-center gap-2 pl-3 pr-4 py-1.5 rounded-full bg-black/20 border border-white/10 backdrop-blur-sm">
+                <div class="flex items-center justify-center w-6 h-6 rounded-full bg-[#29382f]">
+                    <span class="material-symbols-outlined text-primary text-[14px]">notifications_off</span>
+                </div>
+                <p class="text-xs font-medium tracking-wide opacity-80">Bildirimler Sessize Alındı</p>
+            </div>
+        </header>
+
+        <!-- Main Content: Timer & Motivation -->
+        <main
+            class="relative z-10 flex-1 flex flex-col items-center justify-center w-full max-w-6xl mx-auto px-6 -mt-10">
+            <div class="flex flex-col items-center gap-3 mb-8 animate-fade-in">
+                <div class="px-3 py-1 rounded-full border border-primary/20 bg-primary/5">
+                    <span class="text-primary text-xs font-bold uppercase tracking-widest">Odak Seansı</span>
+                </div>
+                <h2 id="pomo-display-name"
+                    class="text-2xl md:text-3xl font-semibold tracking-tight text-center text-white/90">Odaklanılıyor...
+                </h2>
+            </div>
+
+            <div class="flex flex-col items-center relative group cursor-default select-none">
+                <div
+                    class="flex items-baseline font-extralight leading-none text-white timer-glow transition-all duration-300 group-hover:scale-105">
+                    <span id="timer-minutes"
+                        class="text-[120px] sm:text-[160px] md:text-[220px] tracking-tighter tabular-nums">25</span>
+                    <span
+                        class="text-[60px] sm:text-[80px] md:text-[100px] opacity-40 -translate-y-8 sm:-translate-y-12 md:-translate-y-16 mx-2">:</span>
+                    <span id="timer-seconds"
+                        class="text-[120px] sm:text-[160px] md:text-[220px] tracking-tighter tabular-nums">00</span>
+                </div>
+                <div class="mt-2 flex items-center gap-3 opacity-60">
+                    <div class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></div>
+                    <span class="text-sm font-medium tracking-widest uppercase text-white/60">Flow Modu Aktif</span>
+                    <div class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></div>
+                </div>
+            </div>
+
+            <div class="mt-16 max-w-xl text-center">
+                <p id="motivational-quote"
+                    class="text-lg md:text-xl font-light leading-relaxed text-white/60 italic transition-opacity duration-700 hover:text-white/90">
+                    "Her gün atılan küçük adımlar, büyük sonuçlara yol açar."
+                </p>
+            </div>
+        </main>
+
+        <!-- Bottom Control Dock -->
+        <footer
+            class="relative z-20 w-full pb-10 pt-4 px-6 flex flex-col items-center justify-end gap-6 bg-transparent border-none">
+            <div
+                class="glass-dock px-2 py-2 pr-6 rounded-full flex items-center gap-4 sm:gap-6 transition-all duration-300 hover:bg-black/40">
+                <!-- Play/Pause Button -->
+                <button id="pomodoro-toggle-btn"
+                    class="flex items-center justify-center w-14 h-14 shrink-0 rounded-full bg-primary text-background-dark shadow-[0_0_20px_rgba(28,227,108,0.3)] hover:scale-105 active:scale-95 transition-all duration-200">
+                    <span id="pomo-toggle-icon" class="material-symbols-outlined text-[32px] font-bold">pause</span>
+                </button>
+
+                <div class="h-8 w-px bg-white/10 mx-1 hidden sm:block"></div>
+
+                <!-- Sound Selectors -->
+                <div class="flex items-center gap-2 overflow-x-auto hide-scrollbar scroll-smooth">
+                    <button
+                        class="sound-chip flex shrink-0 h-9 items-center justify-center gap-x-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors pl-3 pr-4 group"
+                        data-sound="none">
+                        <span
+                            class="material-symbols-outlined text-white/50 group-hover:text-primary text-[20px]">volume_off</span>
+                        <span class="text-white/70 text-sm font-medium">Sessiz</span>
+                    </button>
+                    <button
+                        class="sound-chip flex shrink-0 h-9 items-center justify-center gap-x-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors pl-3 pr-4 group"
+                        data-sound="rain">
+                        <span
+                            class="material-symbols-outlined text-white/50 group-hover:text-primary text-[20px]">rainy</span>
+                        <span class="text-white/70 text-sm font-medium">Yağmur</span>
+                    </button>
+                    <button
+                        class="sound-chip flex shrink-0 h-9 items-center justify-center gap-x-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors pl-3 pr-4 group"
+                        data-sound="forest">
+                        <span
+                            class="material-symbols-outlined text-white/50 group-hover:text-primary text-[20px]">forest</span>
+                        <span class="text-white/70 text-sm font-medium">Orman</span>
+                    </button>
+                    <button
+                        class="sound-chip flex shrink-0 h-9 items-center justify-center gap-x-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors pl-3 pr-4 group"
+                        data-sound="lofi">
+                        <span
+                            class="material-symbols-outlined text-white/50 group-hover:text-primary text-[20px]">music_note</span>
+                        <span class="text-white/70 text-sm font-medium">Lofi</span>
+                    </button>
+                    <button
+                        class="sound-chip flex shrink-0 h-9 items-center justify-center gap-x-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors pl-3 pr-4 group"
+                        data-sound="storm">
+                        <span
+                            class="material-symbols-outlined text-white/50 group-hover:text-primary text-[20px]">thunderstorm</span>
+                        <span class="text-white/70 text-sm font-medium">Fırtına</span>
+                    </button>
+                    <button
+                        class="sound-chip flex shrink-0 h-9 items-center justify-center gap-x-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors pl-3 pr-4 group"
+                        data-sound="waves">
+                        <span
+                            class="material-symbols-outlined text-white/50 group-hover:text-primary text-[20px]">water_drop</span>
+                        <span class="text-white/70 text-sm font-medium">Dalgalar</span>
+                    </button>
+                    <button
+                        class="sound-chip flex shrink-0 h-9 items-center justify-center gap-x-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors pl-3 pr-4 group"
+                        data-sound="cafe">
+                        <span
+                            class="material-symbols-outlined text-white/50 group-hover:text-primary text-[20px]">coffee</span>
+                        <span class="text-white/70 text-sm font-medium">Kafe</span>
+                    </button>
+                    <button
+                        class="sound-chip flex shrink-0 h-9 items-center justify-center gap-x-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors pl-3 pr-4 group"
+                        data-sound="fire">
+                        <span
+                            class="material-symbols-outlined text-white/50 group-hover:text-primary text-[20px]">local_fire_department</span>
+                        <span class="text-white/70 text-sm font-medium">Ateş</span>
+                    </button>
+                    <button
+                        class="sound-chip flex shrink-0 h-9 items-center justify-center gap-x-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors pl-3 pr-4 group"
+                        data-sound="white">
+                        <span
+                            class="material-symbols-outlined text-white/50 group-hover:text-primary text-[20px]">noise_control_off</span>
+                        <span class="text-white/70 text-sm font-medium">Beyaz Gürültü</span>
+                    </button>
+                </div>
+
+                <div class="hidden sm:flex items-center gap-3 ml-2 group/volume">
+                    <span class="material-symbols-outlined text-white/30 text-[20px]">volume_up</span>
+                    <div class="w-24 h-1 bg-white/10 rounded-full relative overflow-hidden">
+                        <div class="absolute top-0 left-0 bottom-0 w-2/3 bg-primary/40 rounded-full"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="pomodoro-end-btn"
+                class="group flex items-center gap-2 px-4 py-2 rounded-lg text-white/20 hover:text-red-400 hover:bg-red-500/10 transition-all duration-300 border-none bg-transparent">
+                <span class="material-symbols-outlined text-[18px]">logout</span>
+                <span class="text-sm font-medium">Seansı Bitir</span>
+            </button>
+        </footer>
+        <audio id="focus-audio" loop></audio>
+    </div>
+
+    <!-- Update Notification Bar -->
+    <div id="update-notification" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] hidden animate-fade-in">
+        <div
+            class="bg-surface-dark border border-primary/30 p-4 rounded-2xl shadow-2xl flex items-center gap-4 backdrop-blur-xl">
+            <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined">system_update</span>
+            </div>
+            <div class="flex flex-col">
+                <p id="update-text" class="text-white text-sm font-bold">Yeni sürüm indiriliyor...</p>
+                <div id="update-progress-container" class="w-full h-1 bg-white/5 rounded-full mt-1 hidden">
+                    <div id="update-progress-bar" class="h-full bg-primary rounded-full transition-all duration-300"
+                        style="width: 0%"></div>
+                </div>
+            </div>
+            <button id="restart-update-btn"
+                class="hidden px-4 py-2 bg-primary text-background-dark text-xs font-black rounded-xl hover:scale-105 transition-all">
+                Şimdi Yükle
+            </button>
+            <button id="close-update-notif" class="text-text-secondary hover:text-white p-1">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Firebase / Supabase benzeri yapı için scriptler -->
+    <script type="module" src="src/presentation/App.js"></script>
+</body>
+
+</html>

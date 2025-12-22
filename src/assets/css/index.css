@@ -1,0 +1,214 @@
+:root {
+  --primary-color: #1ce36c;
+  --secondary-color: #0f7a3a;
+  --background-dark: #112117;
+  --surface-dark: #1c2620;
+  --surface-border: #29382f;
+  --text-secondary: #9db8a8;
+  --error-color: #ef4444;
+  --success-color: #1ce36c;
+  --transition-speed: 0.3s;
+}
+
+/* Global Reset & Typography */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+.hidden { display: none !important; }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-border);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+/* Modal States */
+.modal.active, .pomodoro-overlay.active, .pomodoro-setup-overlay.active {
+    display: flex !important;
+}
+
+/* Glass Effects & Shadow Utilities */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-dock {
+    background: rgba(17, 33, 23, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.timer-glow {
+    text-shadow: 0 0 40px rgba(28, 227, 108, 0.15);
+}
+
+.focus-gradient {
+    background: radial-gradient(circle at center, rgba(28, 227, 108, 0.08) 0%, rgba(17, 33, 23, 0) 60%);
+}
+
+@keyframes pulseSlow {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+.animate-pulse-slow {
+    animation: pulseSlow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Habit Card Custom Styles */
+.habit-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.habit-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(28, 227, 108, 0.3);
+}
+
+/* Priority Borders */
+.border-l-priority-high { border-left-color: #f97316; }
+.border-l-priority-medium { border-left-color: #1ce36c; }
+.border-l-priority-low { border-left-color: #3b82f6; }
+
+/* Checkbox Style */
+input[type="checkbox"] {
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+/* Text Truncation */
+.line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Weekly Activity Grid Mini Bars */
+.weekly-bar {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px 2px 0 0;
+    transition: all 0.3s ease;
+}
+.weekly-bar:hover {
+    background: var(--primary-color);
+}
+.weekly-bar.active {
+    background: var(--primary-color);
+    box-shadow: 0 0 10px rgba(28, 227, 108, 0.3);
+}
+
+/* Heatmap Cell Animations */
+.heatmap-cell {
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.heatmap-cell:hover {
+    transform: scale(1.2);
+    z-index: 10;
+    box-shadow: 0 0 8px rgba(28, 227, 108, 0.5);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Card Entry Animation */
+.group {
+    animation: slideUp 0.4s ease-out forwards;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Sound Chip Active State */
+.sound-chip.active {
+    background: rgba(28, 227, 108, 0.2) !important;
+    border-color: rgba(28, 227, 108, 0.2) !important;
+    color: var(--primary-color) !important;
+}
+.sound-chip.active span {
+    color: var(--primary-color) !important;
+}
+
+/* Hide Number Input Spinners */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/* Scrollable Container Styles */
+.scrollable-list {
+    max-height: 480px; /* Yaklaşık 5.5 kart yüksekliği */
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.scrollable-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.scrollable-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scrollable-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.scrollable-list:hover::-webkit-scrollbar-thumb {
+    background: rgba(28, 227, 108, 0.2);
+}
