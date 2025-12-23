@@ -119,7 +119,8 @@ class App {
 
         taskForm?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const tagsInput = document.getElementById('task-tags').value;
+            const tagsElement = document.getElementById('task-tags');
+            const tagsInput = tagsElement ? tagsElement.value : '';
             const taskData = {
                 title: document.getElementById('task-title').value,
                 priority: document.getElementById('task-priority').value,

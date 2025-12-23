@@ -6,7 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Odakla - Ana Sayfa</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Noto+Sans:wght@400;500;700;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Manrope:wght@200..800&family=Noto+Sans:wght@400;500;700;900&display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
@@ -26,7 +26,8 @@
                     },
                     fontFamily: {
                         "display": ["Manrope", "sans-serif"],
-                        "body": ["Noto Sans", "sans-serif"]
+                        "body": ["Noto Sans", "sans-serif"],
+                        "signature": ["Dancing Script", "cursive"]
                     },
                     borderRadius: {
                         "DEFAULT": "1rem",
@@ -667,6 +668,12 @@
                 <span class="material-symbols-outlined text-[20px]">close</span>
             </button>
         </div>
+    </div>
+
+    <!-- Version Signature -->
+    <div
+        class="fixed bottom-4 right-6 opacity-30 -rotate-6 font-signature text-xl text-text-secondary pointer-events-none z-50 select-none">
+        v1.0.0
     </div>
 
     <!-- Firebase / Supabase benzeri yapı için scriptler -->
