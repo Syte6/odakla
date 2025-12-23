@@ -12,9 +12,11 @@ Uygulamanın en son sürümlerine GitHub [Releases](https://github.com/Syte6/oda
 
 | Versiyon | Tarih | Yenilikler | İndir |
 | :--- | :--- | :--- | :--- |
-| **v1.0.0** | 22.12.2025 | İlk Kararlı Sürüm, AI Koç, Pomodoro & Alışkanlık Takibi | [Windows (exe)](https://github.com/Syte6/odakla/releases/latest) / [Linux (AppImage)](https://github.com/Syte6/odakla/releases/latest) |
+| **v1.0.3** | 23.12.2025 | Yeni odaklanma sesleri eklendi, bildirim sessize alma ile DND entegrasyonu yapıldı ve geri bildirim butonu eklendi. | [Windows (exe)](https://github.com/Syte6/odakla/releases/tag/v1.0.3) / [Linux (AppImage)](https://github.com/Syte6/odakla/releases/tag/v1.0.3) |
+| **v1.0.0** | 22.12.2025 | İlk Kararlı Sürüm, AI Koç, Pomodoro & Alışkanlık Takibi | [Windows (exe)](https://github.com/Syte6/odakla/releases/tag/v1.0.0) / [Linux (AppImage)](https://github.com/Syte6/odakla/releases/tag/v1.0.0) |
 
 ---
+
 
 ## ✨ Özellikler
 
