@@ -37,6 +37,9 @@ class App {
 
         // 4. Bildirim izni iste
         await NotificationService.requestPermission();
+
+        // 5. Uygulama versiyonunu yükle
+        await this.loadAppVersion();
     }
 
     async renderAll() {
@@ -777,6 +780,18 @@ class App {
 
     closeModal(id) {
         document.getElementById(id)?.classList.add('hidden');
+    }
+
+    async loadAppVersion() {
+        try {
+            const version = await window.electronAPI.getAppVersion();
+            const versionElement = document.getElementById('app-version');
+            if (versionElement) {
+                versionElement.textContent = `v${version}`;
+            }
+        } catch (err) {
+            console.error('Version yüklenemedi:', err);
+        }
     }
 
     updateDate() {
