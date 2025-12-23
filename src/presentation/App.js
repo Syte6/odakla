@@ -296,6 +296,16 @@ class App {
 
             quoteDisplay.textContent = isBreak ? "Dinlenmek, yolun yarısıdır." : quotes[Math.floor(Math.random() * quotes.length)];
 
+            // Bildirim durumunu güncelle
+            const notifStatus = document.getElementById('pomo-notification-status');
+            if (notifStatus) {
+                if (NotificationService.isMuted) {
+                    notifStatus.classList.remove('hidden');
+                } else {
+                    notifStatus.classList.add('hidden');
+                }
+            }
+
             // Bildirim Gönder
             if (isBreak) {
                 NotificationService.sendNotification("Mola Zamanı! ☕", {
@@ -438,16 +448,19 @@ class App {
 
                 if (progress?.completed) return;
 
-                // Ekle ve Kaydet
-                let amountToAdd = 1;
-                if (habit.type !== 'yes-no') {
-                    amountToAdd = this.selectedHabitIncrements[id] || 0;
+                // Yes-no ve duration tipinde ise direkt tamamla
+                if (habit.type === 'yes-no' || habit.type === 'duration') {
+                    await HabitService.updateProgress(id, habit.goal);
+                    await this.renderHabits();
+                    return;
                 }
 
+                // Numeric tiplerde increment değerini kullan
+                const amountToAdd = this.selectedHabitIncrements[id] || 1;
                 const currentValue = progress?.value || 0;
                 await HabitService.updateProgress(id, currentValue + amountToAdd);
 
-                // Sıfırla (Ama render zaten bunu varsayılan 1 yapacak, güvenli temizlik)
+                // Sıfırla
                 this.selectedHabitIncrements[id] = 1;
                 await this.renderHabits();
             });
@@ -469,8 +482,10 @@ class App {
 
                 if (this.selectedHabitIncrements[id] < remGoal) {
                     this.selectedHabitIncrements[id]++;
+                    // Sadece sayıyı güncelle
+                    const counterSpan = btn.closest('.flex').querySelector('.text-primary');
+                    if (counterSpan) counterSpan.textContent = `+${this.selectedHabitIncrements[id]}`;
                 }
-                await this.renderHabits();
             });
         });
 
@@ -481,8 +496,10 @@ class App {
                 if (this.selectedHabitIncrements[id] === undefined) this.selectedHabitIncrements[id] = 1;
                 if (this.selectedHabitIncrements[id] > 1) {
                     this.selectedHabitIncrements[id]--;
+                    // Sadece sayıyı güncelle
+                    const counterSpan = btn.closest('.flex').querySelector('.text-primary');
+                    if (counterSpan) counterSpan.textContent = `+${this.selectedHabitIncrements[id]}`;
                 }
-                await this.renderHabits();
             });
         });
     }
@@ -761,16 +778,15 @@ class App {
         const audio = document.getElementById('focus-audio');
         if (!audio || type === 'none') { audio?.pause(); return; }
         const soundUrls = {
-            rain: 'https://www.soundjay.com/nature/rain-07.mp3',
-            forest: 'https://www.soundjay.com/nature/forest-wind-01.mp3',
-            waves: 'https://www.soundjay.com/nature/ocean-waves-1.mp3',
-            lofi: 'https://stream.zeno.fm/0r0xa792kwzuv',
-            storm: 'https://www.soundjay.com/nature/thunderstorm-01.mp3',
-            cafe: 'https://www.soundjay.com/misc/sounds/street-market-1.mp3',
-            fire: 'https://www.soundjay.com/nature/sounds/fire-1.mp3',
-            white: 'https://www.soundjay.com/misc/sounds/white-noise-01.mp3'
+            rain: 'https://assets.mixkit.co/active_storage/sfx/2393/2393-preview.mp3',
+            forest: 'src/assets/sounds/forest.mp3',
+            waves: 'https://assets.mixkit.co/active_storage/sfx/2392/2392-preview.mp3',
+            lofi: 'src/assets/sounds/lofi.mp3',
+            storm: 'https://assets.mixkit.co/active_storage/sfx/2404/2404-preview.mp3',
+            cafe: 'src/assets/sounds/cafe.mp3',
+            fire: 'src/assets/sounds/fire.mp3'
         };
-        if (soundUrls[type]) { audio.src = soundUrls[type]; audio.play().catch(() => { }); }
+        if (soundUrls[type]) { audio.src = soundUrls[type]; audio.loop = true; audio.play().catch(() => { }); }
     }
 
     stopFocusSound() {

@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import sqlite3 from 'sqlite3';
 import pkg from 'electron-updater';
+import { exec } from 'child_process';
 const { autoUpdater } = pkg;
 
 const __filename = fileURLToPath(import.meta.url);
@@ -160,4 +161,50 @@ ipcMain.handle('install-update', () => {
 
 ipcMain.handle('get-app-version', () => {
     return app.getVersion();
+});
+
+ipcMain.handle('set-do-not-disturb', (event, enabled) => {
+    return new Promise((resolve) => {
+        try {
+            if (process.platform === 'linux') {
+                // Ubuntu/GNOME Do Not Disturb modu
+                const command = enabled
+                    ? 'gsettings set org.gnome.desktop.notifications show-banners false'
+                    : 'gsettings set org.gnome.desktop.notifications show-banners true';
+
+                exec(command, (error, stdout, stderr) => {
+                    if (error) {
+                        console.error('DND ayarlanamadı:', error);
+                        resolve(false);
+                    } else {
+                        console.log(`Ubuntu DND modu ${enabled ? 'AÇILDI' : 'KAPATILDI'}`);
+                        resolve(true);
+                    }
+                });
+            } else if (process.platform === 'darwin') {
+                // macOS için badge temizle
+                app.setBadgeCount(0);
+                resolve(true);
+            } else if (process.platform === 'win32') {
+                // Windows Focus Assist (Priority Only = 1, Alarms Only = 2, Off = 0)
+                const value = enabled ? 1 : 0;
+                const command = `powershell -Command "New-ItemProperty -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\CloudStore\\Store\\DefaultAccount\\Current\\default$windows.data.notifications.quiethourssettings' -Name 'Value' -Value ${value} -PropertyType DWord -Force"`;
+
+                exec(command, (error, stdout, stderr) => {
+                    if (error) {
+                        console.error('Windows Focus Assist ayarlanamadı:', error);
+                        resolve(false);
+                    } else {
+                        console.log(`Windows Focus Assist ${enabled ? 'AÇILDI' : 'KAPATILDI'}`);
+                        resolve(true);
+                    }
+                });
+            } else {
+                resolve(true);
+            }
+        } catch (err) {
+            console.error('Do Not Disturb ayarlanamadı:', err);
+            resolve(false);
+        }
+    });
 });

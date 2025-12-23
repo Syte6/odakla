@@ -24,9 +24,11 @@ export class AiCoachService {
             - Alışkanlık İlerlemesi: ${habitProgress}/${activeHabits}
             Son 5 günün alışkanlık tutarlılığı:
             ${historyText}
-            
-            Genel bir motivasyon mesajı ver.
             Kullanıcıyı yargılama, sadece onun gelişim yolculuğuna eşlik et. Türkçe cevap ver.
+            Verileri kullanma amacın bir analiz yapmak değil kullanıcının durumunu öğrenip ona göre ilham verici bir mesaj vermek.
+            İstisna:
+                Kullanıcı verileri boş ise uygulamayı henüz yeni kullanmaya başlıyor demektir. 
+                Bunun için kullanıcıyı motive etmek için kısa ve ilham verici bir mesaj ver.
         `.trim();
 
         try {

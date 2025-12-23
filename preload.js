@@ -5,6 +5,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     dbRun: (sql, params) => ipcRenderer.invoke('db-run', { sql, params }),
     getPlatform: () => process.platform,
     getAppVersion: () => ipcRenderer.invoke('get-app-version'),
+    setDoNotDisturb: (enabled) => ipcRenderer.invoke('set-do-not-disturb', enabled),
 
     // Update handlers
     onUpdateAvailable: (callback) => ipcRenderer.on('update-available', (_event, value) => callback(value)),

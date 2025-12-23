@@ -66,6 +66,11 @@
                             title="Bildirim Sesi Aç/Kapat">
                             <span class="material-symbols-outlined">notifications_active</span>
                         </button>
+                        <a href="mailto:defasd049@gmail.com?subject=Odakla Geri Bildirim&body=Merhaba,%0A%0A"
+                            class="size-12 rounded-full bg-surface-dark border border-surface-border text-text-secondary flex items-center justify-center hover:bg-white/5 transition-all"
+                            title="Geri Bildirim Gönder">
+                            <span class="material-symbols-outlined">mail</span>
+                        </a>
                         <button id="open-pomodoro-setup"
                             class="px-6 py-3 rounded-full bg-primary text-background-dark font-bold flex items-center gap-2 hover:scale-105 transition-transform shadow-[0_0_20px_rgba(28,227,108,0.3)]">
                             <span class="material-symbols-outlined">timer</span>
@@ -503,8 +508,8 @@
                 <span class="text-sm font-medium">Dashboard</span>
             </div>
 
-            <div
-                class="flex items-center gap-2 pl-3 pr-4 py-1.5 rounded-full bg-black/20 border border-white/10 backdrop-blur-sm">
+            <div id="pomo-notification-status"
+                class="flex items-center gap-2 pl-3 pr-4 py-1.5 rounded-full bg-black/20 border border-white/10 backdrop-blur-sm hidden">
                 <div class="flex items-center justify-center w-6 h-6 rounded-full bg-[#29382f]">
                     <span class="material-symbols-outlined text-primary text-[14px]">notifications_off</span>
                 </div>
@@ -619,13 +624,6 @@
                         <span
                             class="material-symbols-outlined text-white/50 group-hover:text-primary text-[20px]">local_fire_department</span>
                         <span class="text-white/70 text-sm font-medium">Ateş</span>
-                    </button>
-                    <button
-                        class="sound-chip flex shrink-0 h-9 items-center justify-center gap-x-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors pl-3 pr-4 group"
-                        data-sound="white">
-                        <span
-                            class="material-symbols-outlined text-white/50 group-hover:text-primary text-[20px]">noise_control_off</span>
-                        <span class="text-white/70 text-sm font-medium">Beyaz Gürültü</span>
                     </button>
                 </div>
 

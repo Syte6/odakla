@@ -14,6 +14,12 @@ export class NotificationService {
         console.log("NotificationService: toggleMute tetiklendi. Mevcut durum:", this.isMuted);
         this.isMuted = !this.isMuted;
         localStorage.setItem('odakla_notif_muted', this.isMuted.toString());
+
+        // Electron DND modunu aktif et
+        if (window.electronAPI?.setDoNotDisturb) {
+            window.electronAPI.setDoNotDisturb(this.isMuted);
+        }
+
         return this.isMuted;
     }
 
